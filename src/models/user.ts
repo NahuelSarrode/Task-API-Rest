@@ -18,7 +18,13 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    role: {
+        type: String, 
+        required: true, 
+        enum: [ 'Admin', 'User' ],
+        default: 'User'
+    } 
 });
 
 userSchema.pre<IUser>('save', async function(next) {
@@ -38,10 +44,3 @@ userSchema.methods.comparePassword = async function(password: string): Promise<b
 }
 
 export default model<IUser>('User', userSchema);
-
-
-
-
-
-
-

@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc-watch --onSuccess \"node dist/index.js\" ",
-    "start": "node dist/index.js"
+    "dev": "nodemon",
+    "start": "ts-node src/index.ts",
+    "clean": "rimraf ./dist"
   },
   "repository": {
     "type": "git",
@@ -17,25 +18,35 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/nahuelsarrode/restapi-jwt-typescript#readme",
   "dependencies": {
+    "@types/winston": "^2.4.4",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-handlebars": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.22",
     "morgan": "^1.10.0",
+    "nodemon": "^2.0.4",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "rimraf": "^3.0.2",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.7",
+    "@types/express-handlebars": "^3.1.0",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.30",
     "@types/morgan": "^1.9.1",
     "@types/passport": "^1.0.4",
     "@types/passport-jwt": "^3.0.3",
+    "ts-node": "^8.10.2",
     "tsc-watch": "^4.2.9",
     "typescript": "^3.9.6"
-  }
+  },
+  "excludes": [
+    "node_modules"
+  ]
 }

@@ -9,13 +9,14 @@ const ops: StrategyOptions = {
 
 export default new Strategy(ops, async (payload, done) => {
     try {
-        const id = payload.id;
-        const user = await User.findOne({id});
+        const email = payload.email;
+        const user = await User.findOne({email});
 
         if (user) {
+            console.log("inside!");
             return done(null, user);
         }
-
+        console.log("outside");
         return done(null, false);
     } catch (error) {
         console.log(error);
