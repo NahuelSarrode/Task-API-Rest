@@ -4,10 +4,12 @@
   "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
     "dev": "nodemon",
     "start": "ts-node src/index.ts",
-    "clean": "rimraf ./dist"
+    "clean": "rimraf ./dist",
+    "public": "ncp ./src/public/ ./dist/public/",
+    "hbscopy": "ncp ./src/views/ ./dist/views/",
+    "build": "npm run clean && tsc && npm run public && npm run hbscopy"
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,6 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/nahuelsarrode/restapi-jwt-typescript#readme",
   "dependencies": {
-    "@types/winston": "^2.4.4",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -26,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.22",
     "morgan": "^1.10.0",
+    "ncp": "^2.0.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
@@ -41,6 +43,7 @@
     "@types/mongoose": "^5.7.30",
     "@types/morgan": "^1.9.1",
     "@types/passport": "^1.0.4",
+    "@types/winston": "^2.4.4",
     "@types/passport-jwt": "^3.0.3",
     "ts-node": "^8.10.2",
     "tsc-watch": "^4.2.9",
