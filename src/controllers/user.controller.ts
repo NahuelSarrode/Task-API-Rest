@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken"; 
 import User, { IUser } from "../models/user";
 import { status } from "../config/constants";
@@ -8,7 +8,7 @@ import logger from "../common/logger";
 // Create a new user with email and password.
 export const signUp = async (req: Request, res: Response)=> {
     try {
-        if (!req.body.email || !req.body.email) return res.status(status.BAD_REQUEST).json({messagge: "Please, send your email and password"});
+        if (!req.body.email || !req.body.password) return res.status(status.BAD_REQUEST).json({messagge: "Please, send your email and password"});
     
         const user = await User.findOne({ email: req.body.email});
         if (user) return res.status(status.BAD_REQUEST).json({ messagge: "User already in use" });
@@ -27,15 +27,16 @@ export const signUp = async (req: Request, res: Response)=> {
 // Login user with token authentication
 export const signIn = async (req: Request, res: Response) => {
     try {
-        if (!req.body.email || !req.body.email) return res.status(status.BAD_REQUEST).json({messagge: "Please, send your email and password"});
-
-        const user = await User.findOne({ email: req.body.email });     
+        if (!req.body.email || !req.body.password) return res.status(status.BAD_REQUEST).json({messagge: "Please, send your email and password"});
+    
+        const user = await User.findOne({ email: req.body.email });
+        console.log(user);     
         if (!user) return res.status(status.BAD_REQUEST).json({ messagge: "The user doesnt exist" });
 
         const isMatch = await user.comparePassword(req.body.password);
 
         if (isMatch) {
-            return res.header({ token: createToken(user) }).json({user});
+            return res.header({token: createToken(user)}).json(user);
         }
 
         return res.status(status.BAD_REQUEST).json({

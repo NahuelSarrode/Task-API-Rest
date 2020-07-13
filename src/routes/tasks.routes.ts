@@ -1,12 +1,16 @@
-import { Router, Request, Response } from "express"; 
+import { Router } from "express"; 
+import passport from "passport"; 
+
 import * as taskController from "../controllers/task.controller";
+
 const router = Router();
 
-router.get('/create', taskController.create);
-router.post('/save', taskController.save);
-router.get('/list', taskController.list);
-router.get('/delete/:id', taskController.remove);
-router.get('/edit/:id', taskController.edit);
-router.post('/update/:id', taskController.update);
+router.route('/')
+    .get(taskController.list)
+    .post(taskController.create)
+            
+router.route('/:_id')
+    .delete(taskController.remove)
+    .put(taskController.update)
 
 export default router; 

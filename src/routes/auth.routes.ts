@@ -3,7 +3,10 @@ import { signIn, signUp } from "../controllers/user.controller";
 
 const router = Router(); 
 
-router.post('/signup', signUp);
-router.post('/signin', signIn); 
+router.route('/login')
+    .post(signIn); 
+
+router.route('/signup')
+    .post(signUp); 
 
 export default router; 

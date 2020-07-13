@@ -13,10 +13,8 @@ export default new Strategy(ops, async (payload, done) => {
         const user = await User.findOne({email});
 
         if (user) {
-            console.log("inside!");
             return done(null, user);
         }
-        console.log("outside");
         return done(null, false);
     } catch (error) {
         console.log(error);
