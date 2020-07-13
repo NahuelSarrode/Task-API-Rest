@@ -4,6 +4,7 @@ import User, { IUser } from "../models/user";
 import { status } from "../config/constants";
 import config from "../config/config";
 import logger from "../common/logger";
+import task from "../models/task";
 
 // Create a new user with email and password.
 export const signUp = async (req: Request, res: Response)=> {
@@ -44,6 +45,51 @@ export const signIn = async (req: Request, res: Response) => {
         });
     } catch (error) {
         logger.error("Cant validate user ", error);
+        throw error;
+    }
+}
+
+// list of users 
+export const list = async (req: Request, res: Response) => {
+    try {
+        const users = await User.find();
+
+        res.json(users);
+    } catch (error) {
+        logger.error("Cant get users ", error);
+        throw error;
+    }
+}
+
+// get user by id 
+export const getById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params; 
+        const user = await User.findById(id);
+
+        res.json(user);
+    } catch (error) {
+        logger.error("Cant get user by id ", error);
+        throw error;
+    }
+} 
+
+// create a user 
+export const create = async (req: Request, res: Response) => {
+    try {
+        const { email, password, role } = req.body; 
+
+        const newUser = new User({
+            email, 
+            password,
+            role
+        })
+
+        await newUser.save();
+
+        res.sendStatus(status.OK);
+    } catch (error) {
+        logger.error("Cant get user by id ", error);
         throw error;
     }
 }

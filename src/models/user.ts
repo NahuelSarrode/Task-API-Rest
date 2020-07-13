@@ -2,6 +2,7 @@ import { model, Schema, Document } from "mongoose";
 import bcrypt from "bcrypt"; 
 
 export interface IUser extends Document {
+    role?: string,
     email: string, 
     password: string
     comparePassword(password:string): Promise<boolean>
@@ -21,7 +22,7 @@ const userSchema = new Schema({
     },
     role: {
         type: String, 
-        required: true, 
+        required: true,
         enum: [ 'Admin', 'User' ],
         default: 'User'
     } 

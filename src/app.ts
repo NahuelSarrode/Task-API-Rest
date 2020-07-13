@@ -1,16 +1,13 @@
 import express from "express"; 
 import morgan from "morgan"; 
 import cors from "cors"; 
-import path from "path";
 import passport from "passport";
 import passportMiddleware from "./middlewares/passport";
 
 // import all system routes
 import authRoutes from "./routes/auth.routes";
-import indexRoutes from "./routes/index.routes";
-import specialRoutes from "./routes/special.routes";
 import taskRoutes from "./routes/tasks.routes";
-import config from "./config/config";
+import userRoutes from "./routes/users.routes"; 
 
 // initialization
 const app = express(); 
@@ -26,7 +23,7 @@ app.use(express.json());
 passport.use(passportMiddleware);
 
 // routes 
-app.use(indexRoutes);
+app.use('/users', userRoutes);
 app.use(authRoutes);
 app.use('/tasks', taskRoutes);
 

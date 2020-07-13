@@ -30,8 +30,8 @@ export const list = async (req: Request, res: Response) => {
 
 export const remove = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.params; 
-        await Task.findByIdAndDelete(_id);
+        const { id } = req.params; 
+        const task = await Task.findByIdAndDelete(id);
 
         res.sendStatus(status.OK);
     } catch (error) {
@@ -47,10 +47,23 @@ export const update = async (req: Request, res: Response) => {
         const { title, description } = req.body; 
 
         await Task.findByIdAndUpdate(id, {title, description});
-        console.log(id);
-        res.redirect("/tasks/list");
+        
+        res.sendStatus(status.OK);
     } catch (error) {
         logger.error("Error deleting task by id: ", error);
+        throw error;
+    }
+}
+
+export const getById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params; 
+        
+        const task = await Task.findById(id); 
+
+        res.json(task);
+    } catch (error) {
+        logger.error("Error getting task by id: ", error);
         throw error;
     }
 }

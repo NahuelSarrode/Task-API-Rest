@@ -6,11 +6,12 @@ import * as taskController from "../controllers/task.controller";
 const router = Router();
 
 router.route('/')
-    .get(taskController.list)
-    .post(taskController.create)
+    .get(passport.authenticate('jwt', { session:false }), taskController.list)
+    .post(passport.authenticate('jwt', { session:false }),taskController.create)
             
-router.route('/:_id')
-    .delete(taskController.remove)
-    .put(taskController.update)
+router.route('/:id')
+    .get(passport.authenticate('jwt', { session:false }),taskController.getById)
+    .delete(passport.authenticate('jwt', { session:false }),taskController.remove)
+    .put(passport.authenticate('jwt', { session:false }),taskController.update)
 
 export default router; 
