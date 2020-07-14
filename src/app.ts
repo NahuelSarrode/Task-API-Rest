@@ -23,8 +23,8 @@ app.use(express.json());
 passport.use(passportMiddleware);
 
 // routes 
-app.use('/users', userRoutes);
 app.use(authRoutes);
+app.use('/users', userRoutes);
 app.use('/tasks', taskRoutes);
 
 export default app; 

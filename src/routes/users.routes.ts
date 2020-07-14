@@ -3,9 +3,12 @@ import * as userController from "../controllers/user.controller";
 const router = Router();
 
 router.route('/')
-    .get(userController.list);
+    .get(userController.list)
+    .post(userController.create)
 
 router.route('/:id')
-    .get(userController.getById);
+    .get(userController.getById)
+    .put(userController.update)
+    .delete(userController.remove)
 
 export default router; 

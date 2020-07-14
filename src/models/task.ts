@@ -18,4 +18,4 @@ const TaskSchema = new Schema({
     }
 });
 
-export default model<ITask>('Taks', TaskSchema);
+export default model<ITask>('Task', TaskSchema);

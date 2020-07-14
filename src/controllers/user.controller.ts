@@ -25,7 +25,7 @@ export const signUp = async (req: Request, res: Response)=> {
     }
 }
 
-// Login user with token authentication
+// Login user and create a token authentication
 export const signIn = async (req: Request, res: Response) => {
     try {
         if (!req.body.email || !req.body.password) return res.status(status.BAD_REQUEST).json({messagge: "Please, send your email and password"});
@@ -74,22 +74,58 @@ export const getById = async (req: Request, res: Response) => {
     }
 } 
 
-// create a user 
+// Create a normal or Admin user. 
+// The request can contain a "role": "Admin" but by default the user is created like "normal".  
 export const create = async (req: Request, res: Response) => {
     try {
-        const { email, password, role } = req.body; 
+        if (!req.body.email || !req.body.password) return res.status(status.BAD_REQUEST).json({messagge: "Please, complete the email and password"});
+    
+        const user = await User.findOne({ email: req.body.email});
+        if (user) return res.status(status.BAD_REQUEST).json({ messagge: "User already in use" });
 
-        const newUser = new User({
-            email, 
-            password,
-            role
-        })
+        const newUser = new User(req.body);
 
-        await newUser.save();
+        await newUser.save(); 
+
+        res.status(status.OK).json(newUser);
+    } catch (error) {
+        logger.error("Cant create the user ", error);
+        throw error;
+    }
+}
+
+// Delete an User 
+export const remove = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params; 
+        const user = await User.findById({_id: id});
+
+        if (!user) return res.status(status.BAD_REQUEST).json({ messagge: "The user doesnt exist" });
+
+        await User.findByIdAndDelete(id);
+
+        res.status(status.OK);
+    } catch (error) {
+        logger.error("Error deleting user by id: ", error);
+        throw error;
+    }
+}
+
+// Update an user. The role field is required in this method. 
+export const update = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const user = await User.find({_id: id});
+    
+        if (!user) return res.status(status.BAD_REQUEST).json({ messagge: "The User doesnt exist" });
+        if (!req.body.email || !req.body.password || !req.body.role) return res.status(status.BAD_REQUEST).json({messagge: "Please, complete the email, password and role"}); 
+        
+        const { email, password, role } = req.body;
+        await User.findByIdAndUpdate(id, { email, password, role });
 
         res.sendStatus(status.OK);
     } catch (error) {
-        logger.error("Cant get user by id ", error);
+        logger.error("Cant update user ", error);
         throw error;
     }
 }

@@ -31,6 +31,7 @@ export const list = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params; 
+        console.log(req.params.id);
         const task = await Task.findByIdAndDelete(id);
 
         res.sendStatus(status.OK);
