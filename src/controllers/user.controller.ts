@@ -35,10 +35,7 @@ export const signIn = async (req: Request, res: Response) => {
 
         const isMatch = await user.comparePassword(req.body.password);
 
-        if (isMatch) {
-            req.currentUser = "1"; 
-            return res.header({token: createToken(user)}).json(user);
-        }
+        if (isMatch) return res.header({token: createToken(user)}).json(user);
 
         return res.status(status.BAD_REQUEST).json({
             messagge: "Email or password are incorrect!"

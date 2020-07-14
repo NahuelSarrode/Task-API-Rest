@@ -6,11 +6,11 @@ import isAdmin from "../middlewares/isAdmin";
 const router = Router();
 
 router.route('/')
-    .get(isAdmin, userController.list)
-    .post(passport.authenticate('jwt', { session:false }), userController.create)
+    .get(passport.authenticate('jwt', { session:false }), isAdmin, userController.list)
+    .post(passport.authenticate('jwt', { session:false }), isAdmin, userController.create)
 router.route('/:id')
-    .get(passport.authenticate('jwt', { session:false }), userController.getById)
-    .put(passport.authenticate('jwt', { session:false }), userController.update)
-    .delete(passport.authenticate('jwt', { session:false }), userController.remove)
+    .get(passport.authenticate('jwt', { session:false }), isAdmin, userController.getById)
+    .put(passport.authenticate('jwt', { session:false }), isAdmin, userController.update)
+    .delete(passport.authenticate('jwt', { session:false }), isAdmin, userController.remove)
 
 export default router; 
