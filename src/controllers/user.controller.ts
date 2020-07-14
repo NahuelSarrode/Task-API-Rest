@@ -26,7 +26,7 @@ export const signUp = async (req: Request, res: Response)=> {
 }
 
 // Login user and create a token authentication
-export const signIn = async (req: any, res: Response) => {
+export const signIn = async (req: Request, res: Response) => {
     try {
         if (!req.body.email || !req.body.password) return res.status(status.BAD_REQUEST).json({messagge: "Please, send your email and password"});
     
@@ -36,6 +36,7 @@ export const signIn = async (req: any, res: Response) => {
         const isMatch = await user.comparePassword(req.body.password);
 
         if (isMatch) {
+            req.currentUser = "1"; 
             return res.header({token: createToken(user)}).json(user);
         }
 

@@ -11,7 +11,7 @@ export default new Strategy(ops, async (payload, done) => {
     try {
         const email = payload.email;
         const user = await User.findOne({email});
-
+        
         if (user) {
             return done(null, user);
         }
